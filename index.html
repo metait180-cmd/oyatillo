@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apple — Innovatsiya va Mukammallik (Norasmiy Konsept)</title>
+  
+  <!-- Google Fonts: Inter (SF Pro Display uslubiga eng yaqin shrift) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- GSAP & ScrollTrigger (Kinematografik scroll animatsiyalari uchun) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- ========================================================================
+       1. CSS/STYLE.CSS — ASOSIY DIZAYN TIZIMI VA APPLE RANG PALITRASI
+       ======================================================================== -->
+  <style>
+    :root {
+      /* Apple Official Color Tokens */
+      --bg-white: #ffffff;
+      --bg-light-gray: #f5f5f7;
+      --bg-dark: #000000;
+      --bg-dark-elevated: #161617;
+      --text-primary-light: #1d1d1f;
+      --text-secondary-light: #6e6e73;
+      --text-primary-dark: #f5f5f7;
+      --text-secondary-dark: #86868b;
+      --apple-blue: #0071e3;
+      --apple-blue-hover: #0077ed;
+      --apple-blue-link: #2997ff;
+      --border-light: rgba(0, 0, 0, 0.08);
+      --border-dark: rgba(255, 255, 255, 0.14);
+      
+      /* Typography & Layout */
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
+      --nav-height: 48px;
+      --transition-apple: cubic-bezier(0.28, 0.11, 0.32, 1);
+      --transition-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: var(--text-primary-light);
+      background-color: var(--bg-white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    body {
+      overflow-x: hidden;
+      line-height: 1.47059;
+      letter-spacing: -0.015em;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* ========================================================================
+       STICKY FROSTED-GLASS NAVBAR (APPLE USLUBIDA)
+       ======================================================================== */
+    .apple-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--nav-height);
+      z-index: 1000;
+      background: rgba(22, 22, 23, 0.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: background-color 0.4s var(--transition-apple), border-color 0.4s ease;
+    }
+
+    .apple-nav.light-theme {
+      background: rgba(251, 251, 253, 0.82);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-container {
+      max-width: 1024px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo, .nav-icon-btn {
+      color: rgba(255, 255, 255, 0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      padding: 0 8px;
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .apple-nav.light-theme .nav-logo,
+    .apple-nav.light-theme .nav-icon-btn {
+      color: rgba(0, 0, 0, 0.82);
+    }
+
+    .nav-logo:hover, .nav-icon-btn:hover {
+      color: #ffffff;
+    }
+
+    .apple-nav.light-theme .nav-logo:hover,
+    .apple-nav.light-theme .nav-icon-btn:hover {
+      color: #000000;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-link {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.8);
+      transition: color 0.25s ease;
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .apple-nav.light-theme .nav-link {
+      color: rgba(0, 0, 0, 0.78);
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .apple-nav.light-theme .nav-link:hover {
+      color: #000000;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bag-btn {
+      position: relative;
+    }
+
+    .bag-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 2px;
+      min-width: 15px;
+      height: 15px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--apple-blue);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: all 0.3s var(--transition-spring);
+    }
+
+    .bag-badge.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+    }
+
+    /* ========================================================================
+       APPLE SIGNATURE CTA BUTTONS (PILL STYLE)
+       ======================================================================== */
+    .cta-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .btn-apple-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 22px;
+      border-radius: 980px;
+      background-color: var(--apple-blue);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      transition: background-color 0.25s ease, transform 0.25s var(--transition-apple), box-shadow 0.25s ease;
+    }
+
+    .btn-apple-primary:hover {
+      background-color: var(--apple-blue-hover);
+      transform: scale(1.02);
+    }
+
+    .btn-apple-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-apple-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 21px;
+      border-radius: 980px;
+      border: 1px solid var(--apple-blue);
+      color: var(--apple-blue);
+      background: transparent;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      transition: all 0.25s var(--transition-apple);
+    }
+
+    .btn-apple-outline:hover {
+      background-color: var(--apple-blue);
+      color: #ffffff;
+      transform: scale(1.02);
+    }
+
+    .dark-section .btn-apple-outline {
+      border-color: var(--apple-blue-link);
+      color: var(--apple-blue-link);
+    }
+
+    .dark-section .btn-apple-outline:hover {
+      background-color: var(--apple-blue);
+      border-color: var(--apple-blue);
+      color: #ffffff;
+    }
+
+    /* ========================================================================
+       HERO SECTION — iPHONE 16 PRO TITANIUM SHOWCASE
+       ======================================================================== */
+    .hero-section {
+      position: relative;
+      min-height: 96vh;
+      padding-top: calc(var(--nav-height) + 56px);
+      padding-bottom: 48px;
+      background: radial-gradient(circle at 50% 25%, #1d1d22 0%, #000000 72%);
+      color: var(--text-primary-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-eyebrow {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f56300;
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.75rem, 6vw, 4.75rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      background: linear-gradient(180deg, #ffffff 0%, #d2d2d7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.15rem, 2.3vw, 1.65rem);
+      font-weight: 400;
+      color: #a1a1a6;
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.35;
+    }
+
+    .hero-price-note {
+      margin-top: 14px;
+      font-size: 14px;
+      color: var(--text-secondary-dark);
+    }
+
+    /* ========================================================================
+       IMAGE PLACEHOLDER ARCHITECTURE (RASM JOYLASHTIRISH TIZIMI)
+       Foydalanuvchi o'z rasmini assets/images/ papkasiga qo'yishi yoki
+       "Rasm yuklash" tugmasi orqali jonli sinab ko'rishi mumkin.
+       ======================================================================== */
+    .product-media-slot {
+      position: relative;
+      width: 100%;
+      max-width: 920px;
+      margin: 34px auto 0;
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s var(--transition-apple);
+    }
+
+    .product-media-slot img.custom-product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.7s var(--transition-apple);
+    }
+
+    /* Rasm yuklanmaganda ko'rinadigan yuqori aniqlikdagi Apple-style Hardware Studio Frame */
+    .hardware-mockup-fallback {
+      width: 100%;
+      padding: 36px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .replace-img-badge {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 980px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(120, 120, 128, 0.24);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: inherit;
+      border: 1px solid rgba(128, 128, 128, 0.25);
+      opacity: 0.72;
+      transition: all 0.25s ease;
+    }
+
+    .product-media-slot:hover .replace-img-badge {
+      opacity: 1;
+      background: var(--apple-blue);
+      color: #ffffff;
+      border-color: var(--apple-blue);
+    }
+
+    /* ========================================================================
+       FULL-WIDTH PRODUCT BANNERS (MACBOOK, IPAD, WATCH, AIRPODS)
+       ======================================================================== */
+    .promo-banner {
+      position: relative;
+      width: 100%;
+      padding: 76px 24px 56px;
+      text-align: center;
+      overflow: hidden;
+      border-top: 12px solid var(--bg-white);
+    }
+
+    .promo-banner.theme-light {
+      background-color: var(--bg-light-gray);
+      color: var(--text-primary-light);
+    }
+
+    .promo-banner.theme-white {
+      background-color: var(--bg-white);
+      color: var(--text-primary-light);
+    }
+
+    .promo-banner.theme-dark {
+      background-color: var(--bg-dark);
+      color: var(--text-primary-dark);
+    }
+
+    .promo-banner.theme-titanium {
+      background: linear-gradient(180deg, #121214 0%, #050506 100%);
+      color: var(--text-primary-dark);
+    }
+
+    .banner-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #bf4800;
+    }
+
+    .theme-dark .banner-eyebrow,
+    .theme-titanium .banner-eyebrow {
+      color: #ff791f;
+    }
+
+    .banner-title {
+      font-size: clamp(2.2rem, 4.8vw, 3.65rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.028em;
+      margin-bottom: 10px;
+    }
+
+    .banner-subtitle {
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      font-weight: 400;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.86;
+    }
+
+    .banner-chip-badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      background: linear-gradient(90deg, #0071e3, #9b51e0, #f56300);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      border: 1px solid rgba(134, 134, 139, 0.3);
+    }
+
+    /* ========================================================================
+       BENTO 2-COLUMN PRODUCT GRID (BARCHA MAHSULOTLAR)
+       ======================================================================== */
+    .bento-section {
+      padding: 12px;
+      background-color: var(--bg-white);
+    }
+
+    .bento-header {
+      max-width: 1200px;
+      margin: 48px auto 32px;
+      padding: 0 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .bento-section-title {
+      font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-primary-light);
+    }
+
+    .bento-section-title span {
+      color: var(--text-secondary-light);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .bento-card {
+      position: relative;
+      border-radius: 24px;
+      padding: 52px 28px 36px;
+      text-align: center;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 560px;
+      transition: transform 0.5s var(--transition-apple), box-shadow 0.5s var(--transition-apple);
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    .bento-card.card-light {
+      background-color: var(--bg-light-gray);
+      color: var(--text-primary-light);
+    }
+
+    .bento-card.card-dark {
+      background-color: #0b0b0c;
+      color: var(--text-primary-dark);
+    }
+
+    .bento-card-title {
+      font-size: clamp(1.65rem, 2.6vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.022em;
+      margin-bottom: 6px;
+    }
+
+    .bento-card-desc {
+      font-size: 16px;
+      max-width: 380px;
+      margin: 0 auto;
+      opacity: 0.82;
+    }
+
+    .bento-card-price {
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 10px;
+      opacity: 0.7;
+    }
+
+    .bento-card .cta-group {
+      margin-top: 16px;
+    }
+
+    .bento-card .btn-apple-primary,
+    .bento-card .btn-apple-outline {
+      padding: 8px 18px;
+      font-size: 14px;
+    }
+
+    .bento-media {
+      margin-top: 24px;
+      transition: transform 0.6s var(--transition-apple);
+    }
+
+    .bento-card:hover .bento-media {
+      transform: scale(1.035);
+    }
+
+    /* ========================================================================
+       APPLE ECOSYSTEM HIGHLIGHTS STRIP
+       ======================================================================== */
+    .ecosystem-strip {
+      max-width: 1200px;
+      margin: 64px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .eco-item {
+      background: var(--bg-light-gray);
+      border-radius: 22px;
+      padding: 32px 28px;
+      transition: transform 0.35s var(--transition-apple);
+    }
+
+    .eco-item:hover {
+      transform: translateY(-3px);
+    }
+
+    .eco-icon {
+      width: 40px;
+      height: 40px;
+      color: var(--apple-blue);
+      margin-bottom: 16px;
+    }
+
+    .eco-title {
+      font-size: 19px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary-light);
+    }
+
+    .eco-desc {
+      font-size: 14px;
+      color: var(--text-secondary-light);
+      line-height: 1.5;
+    }
+
+    /* ========================================================================
+       PROFESSIONAL APPLE FOOTER
+       ======================================================================== */
+    .apple-footer {
+      background-color: var(--bg-light-gray);
+      color: var(--text-secondary-light);
+      font-size: 12px;
+      line-height: 1.45;
+      padding: 0 22px 40px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .footer-inner {
+      max-width: 1024px;
+      margin: 0 auto;
+    }
+
+    .footer-footnotes {
+      padding: 24px 0 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-directory {
+      padding: 28px 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-col-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary-light);
+      margin-bottom: 10px;
+    }
+
+    .footer-col-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-col-list a {
+      color: #424245;
+      transition: color 0.2s ease;
+    }
+
+    .footer-col-list a:hover {
+      text-decoration: underline;
+      color: var(--text-primary-light);
+    }
+
+    .footer-bottom {
+      padding-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .footer-legal-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-legal-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* ========================================================================
+       MODALS & DRAWERS (QIDIRUV, SAVATCHA, MAHSULOT TAFSILOTLARI, MOBIL MENYU)
+       ======================================================================== */
+    .overlay-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.48);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .overlay-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Search Drawer */
+    .search-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(251, 251, 253, 0.96);
+      backdrop-filter: blur(24px);
+      z-index: 1200;
+      padding: 64px 24px 48px;
+      transform: translateY(-100%);
+      transition: transform 0.45s var(--transition-spring);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .search-drawer.active {
+      transform: translateY(0);
+    }
+
+    .search-box-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .search-input-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      padding-bottom: 12px;
+    }
+
+    .search-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary-light);
+      outline: none;
+    }
+
+    .search-quick-links {
+      margin-top: 24px;
+    }
+
+    .search-quick-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary-light);
+      margin-bottom: 12px;
+    }
+
+    .search-suggestions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .search-suggestion-item {
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 15px;
+      color: var(--text-primary-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s ease;
+      text-align: left;
+    }
+
+    .search-suggestion-item:hover {
+      background: rgba(0, 113, 227, 0.08);
+      color: var(--apple-blue);
+    }
+
+    /* Shopping Bag Slide-Over */
+    .bag-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      background: var(--bg-white);
+      z-index: 1250;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: translateX(100%);
+      transition: transform 0.45s var(--transition-spring);
+      box-shadow: -16px 0 40px rgba(0, 0, 0, 0.14);
+    }
+
+    .bag-drawer.active {
+      transform: translateX(0);
+    }
+
+    .bag-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .bag-items-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .bag-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--bg-light-gray);
+    }
+
+    .bag-footer {
+      border-top: 1px solid var(--border-light);
+      padding-top: 16px;
+    }
+
+    /* Quick View Modal (Batafsil) */
+    .product-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: calc(100% - 32px);
+      max-width: 640px;
+      background: var(--bg-white);
+      border-radius: 28px;
+      padding: 36px 32px;
+      z-index: 1300;
+      transform: translate(-50%, -46%) scale(0.95);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s var(--transition-spring);
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.22);
+    }
+
+    .product-modal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Mobile Fullscreen Menu */
+    .mobile-drawer {
+      position: fixed;
+      inset: 0;
+      background: #161617;
+      color: #f5f5f7;
+      z-index: 1150;
+      padding: 72px 32px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transform: translateY(-100%);
+      transition: transform 0.45s var(--transition-spring);
+    }
+
+    .mobile-drawer.active {
+      transform: translateY(0);
+    }
+
+    .mobile-drawer a {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: rgba(245, 245, 247, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+
+    /* Toast Notification */
+    .apple-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: rgba(29, 29, 31, 0.92);
+      backdrop-filter: blur(16px);
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: 980px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 1400;
+      opacity: 0;
+      transition: all 0.4s var(--transition-spring);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .apple-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ========================================================================
+       2. CSS/RESPONSIVE.CSS — DESKTOP, TABLET VA MOBILE MOSLASHUVCHANLIK
+       ======================================================================== */
+    @media (max-width: 960px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ecosystem-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-directory {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-section {
+        min-height: 88vh;
+        padding-top: calc(var(--nav-height) + 36px);
+      }
+
+      .promo-banner {
+        padding: 56px 18px 40px;
+      }
+
+      .bento-card {
+        min-height: 480px;
+        padding: 40px 20px 28px;
+      }
+
+      .footer-directory {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Yashirin fayl yuklovchi input (foydalanuvchi rasmlarni jonli test qilishi uchun) -->
+  <input type="file" id="imageFileUploader" accept="image/*" style="display: none;" />
+
+  <!-- ========================================================================
+       1. STICKY FROSTED-GLASS NAVBAR
+       ======================================================================== -->
+  <header class="apple-nav" id="appleNavbar">
+    <nav class="nav-container" aria-label="Asosiy navigatsiya">
+      <!-- Apple Minimalist Logo -->
+      <a href="#top" class="nav-logo" aria-label="Apple Bosh sahifa">
+        <svg width="16" height="20" viewBox="0 0 170 170" fill="currentColor">
+          <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.13-1.9-14.34-6.08-3.69-3.03-7.61-7.82-11.77-14.37-5.06-7.82-9.22-16.88-12.48-27.19-3.26-10.31-4.89-20.14-4.89-29.48 0-11.13 2.78-20.51 8.33-28.14 5.55-7.63 12.64-11.58 21.26-11.84 4.48 0 9.69 1.35 15.65 4.04 5.95 2.7 9.79 4.08 11.51 4.16 1.44 0 5.69-1.61 12.74-4.84 7.05-3.23 13.01-4.63 17.89-4.21 13.45 1.08 23.56 6.39 30.33 15.92-12.04 7.31-17.95 17.42-17.74 30.33.21 10.12 3.98 18.54 11.31 25.25 4.98 4.61 10.82 7.51 17.52 8.71-1.39 4.35-2.99 8.56-4.79 12.64zM119.22 31.91c0 7.98-2.91 15.43-8.74 22.34-7.03 8.21-15.54 12.95-24.78 12.21-.13-.98-.2-2.03-.2-3.15 0-7.66 3.33-15.86 9.25-22.58 2.96-3.4 6.72-6.23 11.29-8.48 4.56-2.25 8.88-3.49 12.96-3.73.15 1.15.22 2.28.22 3.39z"/>
+        </svg>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <ul class="nav-links">
+        <li><a href="#store-grid" class="nav-link">Store</a></li>
+        <li><a href="#mac-section" class="nav-link">Mac</a></li>
+        <li><a href="#ipad-section" class="nav-link">iPad</a></li>
+        <li><a href="#iphone-hero" class="nav-link">iPhone</a></li>
+        <li><a href="#watch-section" class="nav-link">Watch</a></li>
+        <li><a href="#airpods-section" class="nav-link">AirPods</a></li>
+        <li><a href="#support-footer" class="nav-link">Support</a></li>
+      </ul>
+
+      <!-- Search, Bag & Mobile Menu Triggers -->
+      <div class="nav-actions">
+        <button class="nav-icon-btn" id="openSearchBtn" aria-label="Qidiruv">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+
+        <button class="nav-icon-btn bag-btn" id="openBagBtn" aria-label="Savatcha">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="bag-badge" id="bagBadge">0</span>
+        </button>
+
+        <button class="nav-icon-btn mobile-menu-btn" id="mobileMenuBtn" aria-label="Menyu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="8" x2="21" y2="8"></line>
+            <line x1="3" y1="16" x2="21" y2="16"></line>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- ======================================================================
+         2. ASOSIY HERO SECTION — iPHONE 16 PRO (TITANIUM)
+         ====================================================================== -->
+    <section class="hero-section dark-section" id="iphone-hero" data-nav-theme="dark">
+      <div class="hero-content">
+        <p class="hero-eyebrow gsap-hero">Yangi avlod</p>
+        <h1 class="hero-title gsap-hero">iPhone 16 Pro</h1>
+        <p class="hero-subtitle gsap-hero">Titan mustahkamligi. A18 Pro chip qudrati. Kamera boshqaruvining mutlaqo yangi davri.</p>
+        
+        <div class="cta-group gsap-hero">
+          <button class="btn-apple-primary" onclick="openProductModal('iphone16pro')">Batafsil</button>
+          <button class="btn-apple-outline" onclick="addToCart('iPhone 16 Pro', 1199)">Xarid qilish</button>
+        </div>
+        <p class="hero-price-note gsap-hero">$1,199 dan boshlanadi yoki oyiga $49.95 dan</p>
+      </div>
+
+      <!-- RASM JOYI #1: assets/images/hero-iphone.png -->
+      <div class="product-media-slot gsap-hero-media" data-slot="hero-iphone">
+        <!-- Agar assets/images/hero-iphone.png papkaga qo'yilsa avtomatik ochiladi, bo'lmasa zamonaviy Titan iPhone SVG maketi ko'rinadi -->
+        <img 
+          src="assets/images/hero-iphone.png" 
+          alt="iPhone 16 Pro Titanium" 
+          class="custom-product-img"
+          style="display: none;"
+          onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+          onerror="this.style.display='none';"
+        />
+        <div class="hardware-mockup-fallback">
+          <!-- Premium Titanium iPhone Pro Silhouette SVG -->
+          <svg width="100%" height="360" viewBox="0 0 760 360" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 720px;">
+            <defs>
+              <linearGradient id="titaniumFrame" x1="0" y1="0" x2="760" y2="360" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#8e8982"/>
+                <stop offset="50%" stop-color="#45433f"/>
+                <stop offset="100%" stop-color="#9b958e"/>
+              </linearGradient>
+              <radialGradient id="screenGlow" cx="50%" cy="50%" r="55%">
+                <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.45"/>
+                <stop offset="45%" stop-color="#7c2d12" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#09090b" stop-opacity="0.98"/>
+              </radialGradient>
+            </defs>
+            <!-- Gorizontal kinematografik iPhone Pro korpusi -->
+            <rect x="70" y="34" width="620" height="292" rx="54" fill="url(#titaniumFrame)"/>
+            <rect x="78" y="42" width="604" height="276" rx="46" fill="#050507"/>
+            <rect x="84" y="48" width="592" height="264" rx="41" fill="url(#screenGlow)"/>
+            <!-- Dynamic Island -->
+            <rect x="102" y="138" width="22" height="84" rx="11" fill="#000000"/>
+            <circle cx="113" cy="156" r="4.5" fill="#182238"/>
+            <!-- Ekran ichidagi minimalistik yorug'lik halqasi -->
+            <circle cx="420" cy="180" r="95" stroke="rgba(255,215,170,0.28)" stroke-width="1.5"/>
+            <circle cx="420" cy="180" r="62" stroke="rgba(255,215,170,0.45)" stroke-width="1"/>
+            <text x="380" y="338" fill="rgba(255,255,255,0.32)" font-size="11" text-anchor="middle" font-family="Inter, sans-serif">
+              assets/images/hero-iphone.png uchun tayyorlangan joy
+            </text>
+          </svg>
+        </div>
+        <button class="replace-img-badge" onclick="triggerImageUpload('hero-iphone')">
+          <span>+ Rasm yuklash (hero-iphone.png)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         3. MACBOOK PRO BANNER — M4 MAX QUDRATI
+         ====================================================================== -->
+    <section class="promo-banner theme-light" id="mac-section" data-nav-theme="light">
+      <div class="gsap-reveal">
+        <p class="banner-eyebrow">MacBook Pro</p>
+        <h2 class="banner-title">Aql bovar qilmas tezlik.</h2>
+        <p class="banner-subtitle">M4, M4 Pro va M4 Max chiplari bilan. Kun bo‘yi yetadigan batareya va Liquid Retina XDR displey.</p>
+        <span class="banner-chip-badge">Apple Intelligence uchun yaratilgan</span>
+        
+        <div class="cta-group">
+          <button class="btn-apple-primary" onclick="openProductModal('macbookpro')">Batafsil</button>
+          <button class="btn-apple-outline" onclick="addToCart('MacBook Pro 16 M4', 2499)">Xarid qilish</button>
+        </div>
+      </div>
+
+      <!-- RASM JOYI #2: assets/images/macbook-pro.png -->
+      <div class="product-media-slot gsap-scale-media" data-slot="macbook-pro">
+        <img 
+          src="assets/images/macbook-pro.png" 
+          alt="MacBook Pro Space Black" 
+          class="custom-product-img"
+          style="display: none;"
+          onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+          onerror="this.style.display='none';"
+        />
+        <div class="hardware-mockup-fallback">
+          <svg width="100%" height="320" viewBox="0 0 800 320" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 760px;">
+            <defs>
+              <linearGradient id="macScreen" x1="160" y1="20" x2="640" y2="260" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#0f172a"/>
+                <stop offset="50%" stop-color="#1e1b4b"/>
+                <stop offset="100%" stop-color="#09090b"/>
+              </linearGradient>
+              <linearGradient id="macBase" x1="80" y1="264" x2="720" y2="282" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#52525b"/>
+                <stop offset="50%" stop-color="#a1a1aa"/>
+                <stop offset="100%" stop-color="#3f3f46"/>
+              </linearGradient>
+            </defs>
+            <!-- Ekran qismi -->
+            <rect x="150" y="20" width="500" height="244" rx="18" fill="#18181b"/>
+            <rect x="160" y="30" width="480" height="224" rx="10" fill="url(#macScreen)"/>
+            <!-- Ekran ichidagi abstrakt to'lqin -->
+            <path d="M160 190 C280 110, 460 230, 640 120 L640 254 L160 254 Z" fill="rgba(56, 189, 248, 0.22)"/>
+            <path d="M160 215 C310 150, 490 245, 640 165 L640 254 L160 254 Z" fill="rgba(168, 85, 247, 0.25)"/>
+            <!-- Korpus pastki qismi -->
+            <path d="M84 264 H716 L696 280 C692 283 686 285 680 285 H120 C114 285 108 283 104 280 L84 264 Z" fill="url(#macBase)"/>
+            <rect x="355" y="264" width="90" height="5" rx="2.5" fill="#27272a"/>
+            <text x="400" y="308" fill="#6e6e73" font-size="11" text-anchor="middle" font-family="Inter, sans-serif">
+              assets/images/macbook-pro.png uchun tayyorlangan joy
+            </text>
+          </svg>
+        </div>
+        <button class="replace-img-badge" onclick="triggerImageUpload('macbook-pro')">
+          <span>+ Rasm yuklash (macbook-pro.png)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         4. IPAD PRO BANNER — YUPQA VA KUCHLI
+         ====================================================================== -->
+    <section class="promo-banner theme-dark dark-section" id="ipad-section" data-nav-theme="dark">
+      <div class="gsap-reveal">
+        <p class="banner-eyebrow">iPad Pro</p>
+        <h2 class="banner-title">Imkonsiz darajada yupqa.</h2>
+        <p class="banner-subtitle">Ultra Retina XDR displey va Apple M4 chipi. Ijodkorlik va unumdorlikning eng yuqori cho‘qqisi.</p>
+        
+        <div class="cta-group">
+          <button class="btn-apple-primary" onclick="openProductModal('ipadpro')">Batafsil</button>
+          <button class="btn-apple-outline" onclick="addToCart('iPad Pro 13 M4', 1299)">Xarid qilish</button>
+        </div>
+      </div>
+
+      <!-- RASM JOYI #3: assets/images/ipad-pro.png -->
+      <div class="product-media-slot gsap-scale-media" data-slot="ipad-pro">
+        <img 
+          src="assets/images/ipad-pro.png" 
+          alt="iPad Pro Ultra Retina XDR" 
+          class="custom-product-img"
+          style="display: none;"
+          onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+          onerror="this.style.display='none';"
+        />
+        <div class="hardware-mockup-fallback">
+          <svg width="100%" height="310" viewBox="0 0 760 310" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px;">
+            <defs>
+              <linearGradient id="ipadGrad" x1="170" y1="24" x2="590" y2="266" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#0284c7"/>
+                <stop offset="50%" stop-color="#1d4ed8"/>
+                <stop offset="100%" stop-color="#09090b"/>
+              </linearGradient>
+            </defs>
+            <!-- iPad Pro Planshet korpusi -->
+            <rect x="170" y="24" width="420" height="248" rx="24" fill="#3f3f46"/>
+            <rect x="178" y="32" width="404" height="232" rx="18" fill="url(#ipadGrad)"/>
+            <!-- Apple Pencil Pro yonida -->
+            <rect x="210" y="284" width="340" height="7" rx="3.5" fill="#e4e4e7"/>
+            <polygon points="550,284 564,287.5 550,291" fill="#a1a1aa"/>
+            <text x="380" y="306" fill="#86868b" font-size="11" text-anchor="middle" font-family="Inter, sans-serif">
+              assets/images/ipad-pro.png uchun tayyorlangan joy
+            </text>
+          </svg>
+        </div>
+        <button class="replace-img-badge" onclick="triggerImageUpload('ipad-pro')">
+          <span>+ Rasm yuklash (ipad-pro.png)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         5. APPLE WATCH SERIES 10 / ULTRA BANNER
+         ====================================================================== -->
+    <section class="promo-banner theme-white" id="watch-section" data-nav-theme="light">
+      <div class="gsap-reveal">
+        <p class="banner-eyebrow">Apple Watch Series 10</p>
+        <h2 class="banner-title">Yupqaroq. Kattaroq. Aqlliroq.</h2>
+        <p class="banner-subtitle">Eng katta va eng yorqin displey. Salomatlik va sport ko‘rsatkichlaringizning aniq tahlili.</p>
+        
+        <div class="cta-group">
+          <button class="btn-apple-primary" onclick="openProductModal('watch10')">Batafsil</button>
+          <button class="btn-apple-outline" onclick="addToCart('Apple Watch Series 10', 399)">Xarid qilish</button>
+        </div>
+      </div>
+
+      <!-- RASM JOYI #4: assets/images/apple-watch.png -->
+      <div class="product-media-slot gsap-scale-media" data-slot="apple-watch">
+        <img 
+          src="assets/images/apple-watch.png" 
+          alt="Apple Watch Series 10" 
+          class="custom-product-img"
+          style="display: none;"
+          onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+          onerror="this.style.display='none';"
+        />
+        <div class="hardware-mockup-fallback">
+          <svg width="100%" height="300" viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 560px;">
+            <!-- Tasma yuqori va pastki -->
+            <path d="M256 18 H344 L336 68 H264 L256 18 Z" fill="#27272a"/>
+            <path d="M264 216 H336 L344 266 H256 L264 216 Z" fill="#27272a"/>
+            <!-- Soat korpusi -->
+            <rect x="234" y="64" width="132" height="156" rx="34" fill="#d4d4d8"/>
+            <rect x="240" y="70" width="120" height="144" rx="28" fill="#09090b"/>
+            <!-- Digital Crown -->
+            <rect x="366" y="96" width="7" height="26" rx="3" fill="#a1a1aa"/>
+            <!-- Aktivlik halqalari -->
+            <circle cx="300" cy="142" r="40" stroke="#ef4444" stroke-width="7" stroke-dasharray="210 45" stroke-linecap="round"/>
+            <circle cx="300" cy="142" r="30" stroke="#22c55e" stroke-width="7" stroke-dasharray="150 40" stroke-linecap="round"/>
+            <circle cx="300" cy="142" r="20" stroke="#06b6d4" stroke-width="7" stroke-dasharray="105 30" stroke-linecap="round"/>
+            <text x="300" y="290" fill="#6e6e73" font-size="11" text-anchor="middle" font-family="Inter, sans-serif">
+              assets/images/apple-watch.png uchun tayyorlangan joy
+            </text>
+          </svg>
+        </div>
+        <button class="replace-img-badge" onclick="triggerImageUpload('apple-watch')">
+          <span>+ Rasm yuklash (apple-watch.png)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         6. AIRPODS PRO 2 / AIRPODS MAX BANNER
+         ====================================================================== -->
+    <section class="promo-banner theme-titanium dark-section" id="airpods-section" data-nav-theme="dark">
+      <div class="gsap-reveal">
+        <p class="banner-eyebrow">AirPods Pro 2</p>
+        <h2 class="banner-title">Sof tovush. Mutlaq sukunat.</h2>
+        <p class="banner-subtitle">2 barobar kuchliroq faol shovqinni bostirish (ANC) va moslashuvchan fazoviy audio.</p>
+        
+        <div class="cta-group">
+          <button class="btn-apple-primary" onclick="openProductModal('airpodspro')">Batafsil</button>
+          <button class="btn-apple-outline" onclick="addToCart('AirPods Pro 2 (USB-C)', 249)">Xarid qilish</button>
+        </div>
+      </div>
+
+      <!-- RASM JOYI #5: assets/images/airpods.png -->
+      <div class="product-media-slot gsap-scale-media" data-slot="airpods">
+        <img 
+          src="assets/images/airpods.png" 
+          alt="AirPods Pro 2" 
+          class="custom-product-img"
+          style="display: none;"
+          onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+          onerror="this.style.display='none';"
+        />
+        <div class="hardware-mockup-fallback">
+          <svg width="100%" height="280" viewBox="0 0 600 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 560px;">
+            <!-- Akustik to'lqinlar -->
+            <circle cx="300" cy="135" r="110" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+            <circle cx="300" cy="135" r="80" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+            <!-- AirPods g'ilofi (Charging Case) -->
+            <rect x="225" y="75" width="150" height="122" rx="34" fill="#f4f4f5"/>
+            <line x1="225" y1="115" x2="375" y2="115" stroke="#d4d4d8" stroke-width="2"/>
+            <!-- Yashil zaryad indikatori -->
+            <circle cx="300" cy="144" r="4" fill="#22c55e"/>
+            <text x="300" y="255" fill="#86868b" font-size="11" text-anchor="middle" font-family="Inter, sans-serif">
+              assets/images/airpods.png uchun tayyorlangan joy
+            </text>
+          </svg>
+        </div>
+        <button class="replace-img-badge" onclick="triggerImageUpload('airpods')">
+          <span>+ Rasm yuklash (airpods.png)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         7. ZAMONAVIY BENTO MAHSULOTLAR GRIDI (STORE SHOWCASE)
+         ====================================================================== -->
+    <section class="bento-section" id="store-grid" data-nav-theme="light">
+      <div class="bento-header gsap-reveal">
+        <h2 class="bento-section-title">Apple ekotizimi. <span>Har bir qurilma mukammal.</span></h2>
+        <a href="#iphone-hero" style="color: var(--apple-blue); font-weight: 500; font-size: 15px;">Barcha modellarni solishtirish &rarr;</a>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Card 1: iPhone 16 -->
+        <article class="bento-card card-light gsap-card">
+          <div>
+            <h3 class="bento-card-title">iPhone 16</h3>
+            <p class="bento-card-desc">Yorqin ranglar, A18 chipi va yangi Kamera boshqaruvi tugmasi.</p>
+            <p class="bento-card-price">$799 dan boshlanadi</p>
+            <div class="cta-group">
+              <button class="btn-apple-primary" onclick="openProductModal('iphone16')">Batafsil</button>
+              <button class="btn-apple-outline" onclick="addToCart('iPhone 16', 799)">Savatchaga</button>
+            </div>
+          </div>
+          <div class="bento-media product-media-slot" data-slot="card-iphone16" style="margin-top: 20px;">
+            <img src="assets/images/card-iphone16.png" alt="iPhone 16" class="custom-product-img" style="display:none;" onload="this.style.display='block'; this.nextElementSibling.style.display='none';" onerror="this.style.display='none';"/>
+            <div class="hardware-mockup-fallback" style="padding: 16px;">
+              <svg width="160" height="200" viewBox="0 0 160 200" fill="none">
+                <rect x="30" y="10" width="100" height="180" rx="22" fill="#3b82f6"/>
+                <rect x="35" y="15" width="90" height="170" rx="18" fill="#1d4ed8"/>
+                <rect x="46" y="26" width="22" height="46" rx="11" fill="#60a5fa"/>
+                <circle cx="57" cy="38" r="6" fill="#0f172a"/>
+                <circle cx="57" cy="58" r="6" fill="#0f172a"/>
+              </svg>
+            </div>
+            <button class="replace-img-badge" onclick="triggerImageUpload('card-iphone16')">+ Rasm</button>
+          </div>
+        </article>
+
+        <!-- Card 2: Apple Watch Ultra 2 -->
+        <article class="bento-card card-dark dark-section gsap-card">
+          <div>
+            <h3 class="bento-card-title">Watch Ultra 2</h3>
+            <p class="bento-card-desc">Ekstremal sarguzashtlar uchun qora titan korpus va 36 soatlik batareya.</p>
+            <p class="bento-card-price">$799 dan boshlanadi</p>
+            <div class="cta-group">
+              <button class="btn-apple-primary" onclick="openProductModal('watchultra')">Batafsil</button>
+              <button class="btn-apple-outline" onclick="addToCart('Apple Watch Ultra 2', 799)">Savatchaga</button>
+            </div>
+          </div>
+          <div class="bento-media product-media-slot" data-slot="card-ultra" style="margin-top: 20px;">
+            <img src="assets/images/card-ultra.png" alt="Apple Watch Ultra 2" class="custom-product-img" style="display:none;" onload="this.style.display='block'; this.nextElementSibling.style.display='none';" onerror="this.style.display='none';"/>
+            <div class="hardware-mockup-fallback" style="padding: 16px;">
+              <svg width="160" height="200" viewBox="0 0 160 200" fill="none">
+                <rect x="42" y="34" width="76" height="132" rx="20" fill="#27272a" stroke="#f97316" stroke-width="2"/>
+                <rect x="48" y="42" width="64" height="116" rx="14" fill="#09090b"/>
+                <text x="80" y="96" fill="#f97316" font-size="18" font-weight="700" text-anchor="middle" font-family="Inter">09:41</text>
+                <text x="80" y="116" fill="#a1a1aa" font-size="10" text-anchor="middle" font-family="Inter">3,240M BALANDLIK</text>
+              </svg>
+            </div>
+            <button class="replace-img-badge" onclick="triggerImageUpload('card-ultra')">+ Rasm</button>
+          </div>
+        </article>
+
+        <!-- Card 3: MacBook Air M3 -->
+        <article class="bento-card card-light gsap-card">
+          <div>
+            <h3 class="bento-card-title">MacBook Air</h3>
+            <p class="bento-card-desc">Yengil, ingichka va M3 chipi bilan har qanday vazifaga tayyor.</p>
+            <p class="bento-card-price">$1,099 dan boshlanadi</p>
+            <div class="cta-group">
+              <button class="btn-apple-primary" onclick="openProductModal('macbookair')">Batafsil</button>
+              <button class="btn-apple-outline" onclick="addToCart('MacBook Air 13 M3', 1099)">Savatchaga</button>
+            </div>
+          </div>
+          <div class="bento-media product-media-slot" data-slot="card-macair" style="margin-top: 20px;">
+            <img src="assets/images/card-macair.png" alt="MacBook Air" class="custom-product-img" style="display:none;" onload="this.style.display='block'; this.nextElementSibling.style.display='none';" onerror="this.style.display='none';"/>
+            <div class="hardware-mockup-fallback" style="padding: 16px;">
+              <svg width="260" height="170" viewBox="0 0 260 170" fill="none">
+                <rect x="40" y="20" width="180" height="112" rx="10" fill="#1e293b"/>
+                <rect x="46" y="26" width="168" height="100" rx="6" fill="#38bdf8" fill-opacity="0.25"/>
+                <rect x="20" y="132" width="220" height="8" rx="4" fill="#94a3b8"/>
+              </svg>
+            </div>
+            <button class="replace-img-badge" onclick="triggerImageUpload('card-macair')">+ Rasm</button>
+          </div>
+        </article>
+
+        <!-- Card 4: AirPods Max -->
+        <article class="bento-card card-light gsap-card">
+          <div>
+            <h3 class="bento-card-title">AirPods Max</h3>
+            <p class="bento-card-desc">Studiya darajasidagi yuqori aniqlikdagi ovoz va yangi USB-C ranglari.</p>
+            <p class="bento-card-price">$549 dan boshlanadi</p>
+            <div class="cta-group">
+              <button class="btn-apple-primary" onclick="openProductModal('airpodsmax')">Batafsil</button>
+              <button class="btn-apple-outline" onclick="addToCart('AirPods Max', 549)">Savatchaga</button>
+            </div>
+          </div>
+          <div class="bento-media product-media-slot" data-slot="card-airpodsmax" style="margin-top: 20px;">
+            <img src="assets/images/card-airpodsmax.png" alt="AirPods Max" class="custom-product-img" style="display:none;" onload="this.style.display='block'; this.nextElementSibling.style.display='none';" onerror="this.style.display='none';"/>
+            <div class="hardware-mockup-fallback" style="padding: 16px;">
+              <svg width="200" height="180" viewBox="0 0 200 180" fill="none">
+                <path d="M45 100 C45 45, 155 45, 155 100" stroke="#71717a" stroke-width="10" stroke-linecap="round"/>
+                <rect x="30" y="90" width="32" height="56" rx="14" fill="#a1a1aa"/>
+                <rect x="138" y="90" width="32" height="56" rx="14" fill="#a1a1aa"/>
+              </svg>
+            </div>
+            <button class="replace-img-badge" onclick="triggerImageUpload('card-airpodsmax')">+ Rasm</button>
+          </div>
+        </article>
+      </div>
+
+      <!-- Ecosystem Advantages -->
+      <div class="ecosystem-strip">
+        <div class="eco-item gsap-reveal">
+          <svg class="eco-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="1" y="3" width="15" height="13" rx="2"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <h3 class="eco-title">Tez va xavfsiz yetkazib berish</h3>
+          <p class="eco-desc">Barcha buyurtmalar uchun bepul yetkazib berish va real vaqtda kuzatuv imkoniyati.</p>
+        </div>
+
+        <div class="eco-item gsap-reveal">
+          <svg class="eco-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <h3 class="eco-title">AppleCare+ himoyasi</h3>
+          <p class="eco-desc">Qurilmangiz uchun kengaytirilgan kafolat va rasmiy mutaxassislar tomonidan tezkor xizmat.</p>
+        </div>
+
+        <div class="eco-item gsap-reveal">
+          <svg class="eco-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          <h3 class="eco-title">Apple Trade In</h3>
+          <p class="eco-desc">Eski qurilmangizni topshiring va yangi iPhone yoki Mac xaridi uchun maxsus chegirmaga ega bo‘ling.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       8. PROFESSIONAL APPLE FOOTER
+       ======================================================================== -->
+  <footer class="apple-footer" id="support-footer">
+    <div class="footer-inner">
+      <div class="footer-footnotes">
+        <p>1. Trade In qiymatlari topshirilayotgan qurilmaning holati, yili va konfiguratsiyasiga qarab farq qiladi.</p>
+        <p>2. Apple Intelligence funksiyalari mintaqa va til sozlamalariga qarab bosqichma-bosqich taqdim etiladi.</p>
+        <p><strong>Eslatma:</strong> Ushbu veb-sahifa Apple Inc. kompaniyasining rasmiy sayti emas. Dizayn va animatsiya mahoratini namoyish etish maqsadida yaratilgan norasmiy Apple-inspired konsept loyihasidir.</p>
+      </div>
+
+      <div class="footer-directory">
+        <div>
+          <h4 class="footer-col-title">Xarid qilish va o‘rganish</h4>
+          <ul class="footer-col-list">
+            <li><a href="#store-grid">Store</a></li>
+            <li><a href="#mac-section">Mac</a></li>
+            <li><a href="#ipad-section">iPad</a></li>
+            <li><a href="#iphone-hero">iPhone</a></li>
+            <li><a href="#watch-section">Watch</a></li>
+            <li><a href="#airpods-section">AirPods</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Xizmatlar</h4>
+          <ul class="footer-col-list">
+            <li><a href="#support-footer">Apple Music</a></li>
+            <li><a href="#support-footer">Apple TV+</a></li>
+            <li><a href="#support-footer">Apple Arcade</a></li>
+            <li><a href="#support-footer">iCloud+</a></li>
+            <li><a href="#support-footer">Apple One</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Apple Store</h4>
+          <ul class="footer-col-list">
+            <li><a href="#store-grid">Do‘kon topish</a></li>
+            <li><a href="#support-footer">Genius Bar</a></li>
+            <li><a href="#support-footer">Today at Apple</a></li>
+            <li><a href="#store-grid">Apple Trade In</a></li>
+            <li><a href="#store-grid">Buyurtma holati</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Biznes va Ta’lim</h4>
+          <ul class="footer-col-list">
+            <li><a href="#mac-section">Apple va Biznes</a></li>
+            <li><a href="#mac-section">Biznes uchun xarid</a></li>
+            <li><a href="#ipad-section">Apple va Ta’lim</a></li>
+            <li><a href="#ipad-section">Talabalar uchun takliflar</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Apple Qadriyatlari</h4>
+          <ul class="footer-col-list">
+            <li><a href="#support-footer">Maxfiylik siyosati</a></li>
+            <li><a href="#support-footer">Atrof-muhit muhofazasi</a></li>
+            <li><a href="#support-footer">Barcha uchun qulaylik</a></li>
+            <li><a href="#support-footer">Apple haqida</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>Copyright &copy; 2026 Apple-Inspired Concept. Barcha huquqlar himoyalangan (Norasmiy loyiha).</p>
+        <div class="footer-legal-links">
+          <a href="#support-footer">Maxfiylik siyosati</a>
+          <a href="#support-footer">Foydalanish shartlari</a>
+          <a href="#support-footer">Sayt xaritasi</a>
+          <span>O‘zbekiston</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       INTERAKTIV QATLAM VA DRAWERLAR
+       ======================================================================== -->
+  <div class="overlay-backdrop" id="globalBackdrop"></div>
+
+  <!-- Qidiruv (Search Drawer) -->
+  <div class="search-drawer" id="searchDrawer" role="dialog" aria-label="Saytdan qidirish">
+    <div class="search-box-wrap">
+      <div class="search-input-row">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="apple.com dan qidirish..." />
+        <button id="closeSearchBtn" style="font-size: 14px; color: var(--apple-blue); font-weight: 500;">Yopish</button>
+      </div>
+      <div class="search-quick-links">
+        <p class="search-quick-title">Tezkor havolalar</p>
+        <div class="search-suggestions" id="searchSuggestions">
+          <button class="search-suggestion-item" onclick="navigateFromSearch('#iphone-hero')">&rarr; iPhone 16 Pro Titanium</button>
+          <button class="search-suggestion-item" onclick="navigateFromSearch('#mac-section')">&rarr; MacBook Pro M4 Max</button>
+          <button class="search-suggestion-item" onclick="navigateFromSearch('#ipad-section')">&rarr; iPad Pro Ultra Retina XDR</button>
+          <button class="search-suggestion-item" onclick="navigateFromSearch('#watch-section')">&rarr; Apple Watch Series 10</button>
+          <button class="search-suggestion-item" onclick="navigateFromSearch('#airpods-section')">&rarr; AirPods Pro 2</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Savatcha (Shopping Bag Drawer) -->
+  <aside class="bag-drawer" id="bagDrawer" aria-label="Xarid savatchasi">
+    <div>
+      <div class="bag-header">
+        <h3 style="font-size: 20px; font-weight: 600;">Savatchangiz</h3>
+        <button id="closeBagBtn" style="font-size: 14px; color: var(--apple-blue); font-weight: 500;">Yopish</button>
+      </div>
+    </div>
+
+    <div class="bag-items-list" id="bagItemsContainer">
+      <p style="color: var(--text-secondary-light); text-align: center; margin-top: 40px;">Savatchangiz hozircha bo‘sh.</p>
+    </div>
+
+    <div class="bag-footer">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 14px; font-weight: 600; font-size: 17px;">
+        <span>Jami summa:</span>
+        <span id="bagTotalAmount">$0</span>
+      </div>
+      <button class="btn-apple-primary" style="width: 100%;" onclick="checkoutBag()">Buyurtmani rasmiylashtirish</button>
+    </div>
+  </aside>
+
+  <!-- Batafsil Modal (Product Specs Quick View) -->
+  <div class="product-modal" id="productModal" role="dialog" aria-modal="true">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+      <div>
+        <span id="modalEyebrow" style="font-size: 12px; font-weight: 600; color: #f56300; text-transform: uppercase;">Yangi</span>
+        <h3 id="modalTitle" style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">Mahsulot nomi</h3>
+      </div>
+      <button onclick="closeAllOverlays()" style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-light-gray); font-weight: 600;">&times;</button>
+    </div>
+    <p id="modalDesc" style="color: var(--text-secondary-light); font-size: 16px; line-height: 1.5; margin-bottom: 18px;"></p>
+    <ul id="modalSpecs" style="display: flex; flex-direction: column; gap: 10px; background: var(--bg-light-gray); padding: 18px; border-radius: 16px; font-size: 14px; margin-bottom: 22px;"></ul>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+      <span id="modalPrice" style="font-size: 20px; font-weight: 700;"></span>
+      <button class="btn-apple-primary" id="modalAddBtn">Savatchaga qo‘shish</button>
+    </div>
+  </div>
+
+  <!-- Mobil Navigatsiya Menyusi -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div style="display: flex; justify-content: flex-end;">
+      <button id="closeMobileBtn" style="color: #fff; font-size: 28px;">&times;</button>
+    </div>
+    <a href="#store-grid" onclick="closeAllOverlays()">Store</a>
+    <a href="#mac-section" onclick="closeAllOverlays()">Mac</a>
+    <a href="#ipad-section" onclick="closeAllOverlays()">iPad</a>
+    <a href="#iphone-hero" onclick="closeAllOverlays()">iPhone</a>
+    <a href="#watch-section" onclick="closeAllOverlays()">Watch</a>
+    <a href="#airpods-section" onclick="closeAllOverlays()">AirPods</a>
+    <a href="#support-footer" onclick="closeAllOverlays()">Support</a>
+  </div>
+
+  <!-- Bildirishnoma (Toast) -->
+  <div class="apple-toast" id="appleToast"></div>
+
+  <!-- ========================================================================
+       3. JS/MAIN.JS & 4. JS/ANIMATIONS.JS — INTERAKTIVLIK VA GSAP ANIMATSIYALAR
+       ======================================================================== -->
+  <script>
+    /* ------------------------------------------------------------------------
+       MAHSULOTLAR MA'LUMOTLAR BAZASI (BATAFSIL MODAL UCHUN)
+       ------------------------------------------------------------------------ */
+    const PRODUCT_CATALOG = {
+      iphone16pro: {
+        eyebrow: "Titan Dizayn",
+        title: "iPhone 16 Pro",
+        desc: "Grade 5 titan korpusi, 6.3 yoki 6.9 dyuymli Super Retina XDR displey va professional 4K 120 kadr/soniya Dolby Vision video yozish imkoniyati.",
+        specs: [
+          "Chip: A18 Pro (6 yadroli GPU va 16 yadroli Neural Engine)",
+          "Kamera: 48 MP Fusion + 48 MP Ultra Wide + 5x Telephoto",
+          "Boshqaruv: Yangi sensorli Camera Control tugmasi",
+          "Batareya: 33 soatgacha video ijro etish"
+        ],
+        price: 1199
+      },
+      macbookpro: {
+        eyebrow: "Pro Ishlash",
+        title: "MacBook Pro 16 (M4 Max)",
+        desc: "Murakkab 3D renderlash, sun’iy intellekt modellarini o‘qitish va 8K video montaj uchun yaratilgan eng kuchli noutbuk.",
+        specs: [
+          "Chip: Apple M4 Max (16 yadroli CPU, 40 yadroli GPU)",
+          "Displey: 16.2 dyuymli Liquid Retina XDR (1600 nit yorqinlik)",
+          "Xotira: 128 GB gacha birlashtirilgan tezkor xotira",
+          "Batareya: 24 soatgacha avtonom ishlash"
+        ],
+        price: 2499
+      },
+      ipadpro: {
+        eyebrow: "Ultra Yupqa",
+        title: "iPad Pro 13 (M4)",
+        desc: "Atigi 5.1 mm qalinlikdagi korpusda ikki qavatli Tandem OLED displey va Apple Pencil Pro bilan cheksiz ijod erkinligi.",
+        specs: [
+          "Chip: Apple M4 (10 yadroli CPU va GPU)",
+          "Displey: Ultra Retina XDR Tandem OLED",
+          "Aksessuarlar: Apple Pencil Pro va Magic Keyboard qo‘llab-quvvatlovi",
+          "Ulanish: Thunderbolt / USB 4 va Wi-Fi 6E"
+        ],
+        price: 1299
+      },
+      watch10: {
+        eyebrow: "Salomatlik va Sport",
+        title: "Apple Watch Series 10",
+        desc: "Keng burchakli OLED displey, suv harorati va chuqurlik sensorlari hamda 30 daqiqada 80% gacha tezkor quvvatlanish.",
+        specs: [
+          "Chip: S10 SiP ikki yadroli protsessor",
+          "Korpus: Alyuminiy yoki sayqallangan Titan (42 mm / 46 mm)",
+          "Salomatlik: EKG, yurak ritmi va uyqu apnoesi bildirishnomalari",
+          "Suvga chidamlilik: 50 metrgacha (WR50)"
+        ],
+        price: 399
+      },
+      airpodspro: {
+        eyebrow: "Akustik Mukammallik",
+        title: "AirPods Pro 2 (USB-C)",
+        desc: "H2 chipi yordamida tashqi shovqinlarni 2 barobar samaraliroq bloklaydi va atrof-muhitga moslashuvchan tovush beradi.",
+        specs: [
+          "Chip: Apple H2 quloqchinlarda va U1 g‘ilofda",
+          "Audio: Personalized Spatial Audio va Adaptive Transparency",
+          "Himoya: Chang, ter va suvdan IP54 himoyasi",
+          "Batareya: G‘ilof bilan 30 soatgacha tinglash"
+        ],
+        price: 249
+      },
+      iphone16: {
+        eyebrow: "Yangi Avlod",
+        title: "iPhone 16",
+        desc: "A18 chipi, Action tugmasi, Camera Control va ajoyib ikki kamerali tizim endi yanada yorqin ranglarda.",
+        specs: [
+          "Chip: Apple A18",
+          "Kamera: 48 MP Fusion (2x optik sifatli zum)",
+          "Displey: 6.1 dyuym Super Retina XDR",
+          "Kuchli Ceramic Shield old oynasi"
+        ],
+        price: 799
+      },
+      watchultra: {
+        eyebrow: "Ekstremal",
+        title: "Apple Watch Ultra 2",
+        desc: "3000 nit yorqinlikdagi sapfir oynali displey, ikki chastotali aniq GPS va 100 metrgacha sho‘ng‘ish imkoniyati.",
+        specs: [
+          "Korpus: 49 mm aerokosmik titan (Natural yoki Satin Black)",
+          "Displey: 3000 nit Always-On Retina",
+          "Batareya: Oddiy rejimda 36 soat, kam quvvatda 72 soat",
+          "Sirena: 86 desibelli favqulodda signal"
+        ],
+        price: 799
+      },
+      macbookair: {
+        eyebrow: "Yengil va Kuchli",
+        title: "MacBook Air 13 (M3)",
+        desc: "11.5 mm qalinlik va atigi 1.24 kg og‘irlik. Ventilyatorsiz mutlaqo jim ishlash va 18 soatlik batareya.",
+        specs: [
+          "Chip: Apple M3 (8 yadroli CPU, 10 yadroli GPU)",
+          "Displey: 13.6 dyuym Liquid Retina (1 milliard rang)",
+          "Portlar: MagSafe 3 va ikkita Thunderbolt porti",
+          "Kamera: 1080p FaceTime HD"
+        ],
+        price: 1099
+      },
+      airpodsmax: {
+        eyebrow: "Hi-Fi Audio",
+        title: "AirPods Max (USB-C)",
+        desc: "Apple tomonidan ishlab chiqilgan dinamik drayver va xotira ko‘pikli yostiqchalar bilan mislsiz qulaylik.",
+        specs: [
+          "Chip: Har bir quloqchinda alohida Apple H1 chipi",
+          "Boshqaruv: Aniq ovoz sozlovchi Digital Crown",
+          "Ulanish: USB-C orqali quvvatlash va lossless audio",
+          "Batareya: ANC yoqilgan holda 20 soatgacha"
+        ],
+        price: 549
+      }
+    };
+
+    /* ------------------------------------------------------------------------
+       SAVATCHA (SHOPPING BAG) HOLATI VA FUNKSIYALARI
+       ------------------------------------------------------------------------ */
+    let cart = [];
+
+    function showToast(message) {
+      const toast = document.getElementById("appleToast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2800);
+    }
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      updateBagUI();
+      showToast(`${name} savatchaga qo‘shildi`);
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateBagUI();
+    }
+
+    function updateBagUI() {
+      const badge = document.getElementById("bagBadge");
+      const container = document.getElementById("bagItemsContainer");
+      const totalEl = document.getElementById("bagTotalAmount");
+
+      const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+      badge.textContent = totalQty;
+      badge.classList.toggle("visible", totalQty > 0);
+      totalEl.textContent = `$${totalPrice.toLocaleString()}`;
+
+      if (cart.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-secondary-light); text-align: center; margin-top: 40px;">Savatchangiz hozircha bo‘sh.</p>`;
+        return;
+      }
+
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="bag-item">
+          <div>
+            <div style="font-weight: 600; font-size: 15px;">${item.name}</div>
+            <div style="font-size: 13px; color: var(--text-secondary-light);">Soni: ${item.qty} &times; $${item.price.toLocaleString()}</div>
+          </div>
+          <button onclick="removeFromCart(${idx})" style="color: #ef4444; font-size: 13px; font-weight: 500;">O‘chirish</button>
+        </div>
+      `).join("");
+    }
+
+    function checkoutBag() {
+      if (cart.length === 0) {
+        showToast("Avval savatchaga mahsulot qo‘shing");
+        return;
+      }
+      cart = [];
+      updateBagUI();
+      closeAllOverlays();
+      showToast("Rahmat! Buyurtmangiz muvaffaqiyatli qabul qilindi.");
+    }
+
+    /* ------------------------------------------------------------------------
+       OVERLAY, QIDIRUV, MODAL VA MOBIL MENYU BOSHQARUVI
+       ------------------------------------------------------------------------ */
+    const backdrop = document.getElementById("globalBackdrop");
+    const searchDrawer = document.getElementById("searchDrawer");
+    const bagDrawer = document.getElementById("bagDrawer");
+    const productModal = document.getElementById("productModal");
+    const mobileDrawer = document.getElementById("mobileDrawer");
+
+    function closeAllOverlays() {
+      backdrop.classList.remove("active");
+      searchDrawer.classList.remove("active");
+      bagDrawer.classList.remove("active");
+      productModal.classList.remove("active");
+      mobileDrawer.classList.remove("active");
+    }
+
+    backdrop.addEventListener("click", closeAllOverlays);
+
+    document.getElementById("openSearchBtn").addEventListener("click", () => {
+      closeAllOverlays();
+      backdrop.classList.add("active");
+      searchDrawer.classList.add("active");
+      setTimeout(() => document.getElementById("searchInput").focus(), 150);
+    });
+
+    document.getElementById("closeSearchBtn").addEventListener("click", closeAllOverlays);
+
+    document.getElementById("openBagBtn").addEventListener("click", () => {
+      closeAllOverlays();
+      backdrop.classList.add("active");
+      bagDrawer.classList.add("active");
+    });
+
+    document.getElementById("closeBagBtn").addEventListener("click", closeAllOverlays);
+
+    document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+      closeAllOverlays();
+      mobileDrawer.classList.add("active");
+    });
+
+    document.getElementById("closeMobileBtn").addEventListener("click", closeAllOverlays);
+
+    function navigateFromSearch(hash) {
+      closeAllOverlays();
+      const target = document.querySelector(hash);
+      if (target) target.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Jonli qidiruv filtri
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+      const items = document.querySelectorAll(".search-suggestion-item");
+      items.forEach(btn => {
+        btn.style.display = btn.textContent.toLowerCase().includes(query) ? "flex" : "none";
+      });
+    });
+
+    // Batafsil Modal ochish
+    function openProductModal(productKey) {
+      const product = PRODUCT_CATALOG[productKey];
+      if (!product) return;
+
+      document.getElementById("modalEyebrow").textContent = product.eyebrow;
+      document.getElementById("modalTitle").textContent = product.title;
+      document.getElementById("modalDesc").textContent = product.desc;
+      document.getElementById("modalPrice").textContent = `$${product.price.toLocaleString()}`;
+      
+      document.getElementById("modalSpecs").innerHTML = product.specs
+        .map(s => `<li>&bull; ${s}</li>`)
+        .join("");
+
+      const addBtn = document.getElementById("modalAddBtn");
+      addBtn.onclick = () => {
+        addToCart(product.title, product.price);
+        closeAllOverlays();
+      };
+
+      closeAllOverlays();
+      backdrop.classList.add("active");
+      productModal.classList.add("active");
+    }
+
+    /* ------------------------------------------------------------------------
+       RASM YUKLASH VA ALMASHTIRISH TIZIMI (CUSTOM IMAGE SLOT HELPER)
+       ------------------------------------------------------------------------ */
+    let activeSlotName = null;
+    const fileUploader = document.getElementById("imageFileUploader");
+
+    function triggerImageUpload(slotName) {
+      activeSlotName = slotName;
+      fileUploader.click();
+    }
+
+    fileUploader.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file || !activeSlotName) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const slotContainer = document.querySelector(`[data-slot="${activeSlotName}"]`);
+        if (slotContainer) {
+          const imgEl = slotContainer.querySelector("img.custom-product-img");
+          const fallbackEl = slotContainer.querySelector(".hardware-mockup-fallback");
+          if (imgEl) {
+            imgEl.src = e.target.result;
+            imgEl.style.display = "block";
+            imgEl.style.maxHeight = "440px";
+          }
+          if (fallbackEl) {
+            fallbackEl.style.display = "none";
+          }
+          showToast(`Rasm "${activeSlotName}" bo‘limiga joylashtirildi!`);
+        }
+      };
+      reader.readAsDataURL(file);
+      fileUploader.value = "";
+    });
+
+    /* ------------------------------------------------------------------------
+       4. GSAP & SCROLLTRIGGER CINEMATIC ANIMATSIYALARI
+       ------------------------------------------------------------------------ */
+    window.addEventListener("DOMContentLoaded", () => {
+      // Navbar tema moslashuvi (Scroll qilinganda oq va qora bo'limlarga qarab rang o'zgarishi)
+      const navbar = document.getElementById("appleNavbar");
+      const themedSections = document.querySelectorAll("[data-nav-theme]");
+
+      function updateNavbarTheme() {
+        const scrollPos = window.scrollY + 52;
+        themedSections.forEach(sec => {
+          const top = sec.offsetTop;
+          const height = sec.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            const theme = sec.getAttribute("data-nav-theme");
+            navbar.classList.toggle("light-theme", theme === "light");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", updateNavbarTheme, { passive: true });
+      updateNavbarTheme();
+
+      // GSAP mavjudligini tekshirish va animatsiyalarni ishga tushirish
+      if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Hero Section Staggered Reveal
+        gsap.from(".gsap-hero", {
+          y: 36,
+          opacity: 0,
+          duration: 1.05,
+          stagger: 0.14,
+          ease: "power3.out"
+        });
+
+        gsap.from(".gsap-hero-media", {
+          y: 50,
+          scale: 0.94,
+          opacity: 0,
+          duration: 1.25,
+          delay: 0.35,
+          ease: "power3.out"
+        });
+
+        // 2. Banner matnlari uchun Scroll Reveal
+        gsap.utils.toArray(".gsap-reveal").forEach((el) => {
+          gsap.from(el, {
+            scrollTrigger: {
+              trigger: el,
+              start: "top 84%",
+              toggleActions: "play none none reverse"
+            },
+            y: 34,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power2.out"
+          });
+        });
+
+        // 3. Katta mahsulot rasmlari uchun Parallax & Scale-in effekti
+        gsap.utils.toArray(".gsap-scale-media").forEach((media) => {
+          gsap.fromTo(media, 
+            { scale: 0.92, y: 40, opacity: 0.6 },
+            {
+              scale: 1,
+              y: 0,
+              opacity: 1,
+              duration: 1.1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: media,
+                start: "top 88%",
+                end: "top 35%",
+                scrub: 0.6
+              }
+            }
+          );
+        });
+
+        // 4. Bento Grid kartochkalari uchun Staggered Scroll Reveal
+        gsap.from(".gsap-card", {
+          scrollTrigger: {
+            trigger: ".bento-grid",
+            start: "top 82%"
+          },
+          y: 44,
+          opacity: 0,
+          duration: 0.85,
+          stagger: 0.15,
+          ease: "power3.out"
+        });
+      }
+    });
+  </script>
+</body>
+</html>
